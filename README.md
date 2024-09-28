@@ -1,6 +1,28 @@
 # stl_validator_for_archivematica
 
-**stl_validator_for_archivematica** is a script that enables [Archivematica](https://www.archivematica.org/) to validate STL files.
+**stl_validator_for_archivematica** is a script that enables [Archivematica](https://www.archivematica.org/) to validate ASCII based STL files.
+
+## Installation
+
+To install the **stl_validator_for_archivematica** script, follow these steps:
+
+### 1. Create a new validation command
+- In the Archivematica frontend, navigate to **Preservation planning** > **Validation** > **Commands** > **Create new command** or go directly to [this link](http://10.10.10.20/fpr/fpcommand/create/).
+- Fill in the following fields:
+    - **The related tool**: Select **Archivematica script**.
+    - **Description**: Enter `Validate using stl_validator`.
+    - **Script**: Paste the entire content of the **stl_validator.py** file.
+    - **Script type**: Select **Python script**.
+    - **Command usage**: Select **Validation**.
+- Click **Save**.
+
+### 2. Create a new validation rule for ASCII based glTF 1.0
+- In the Archivematica frontend, navigate to **Preservation planning** > **Validation** > **Rules** > **Create new rule** or go directly to [this link](http://10.10.10.20/fpr/fprule/create/).
+- Fill in the following fields:
+    - **Purpose**: Select **Validation**.
+    - **The related format**: Select **Text (Source Code): STL (Standard Tessellation Language) ASCII: STL (x-fmt/108)**.
+    - **Command**: Select **Validate using stl_validator**.
+- Click **Save**.
 
 ## Dependencies
 
@@ -8,7 +30,7 @@
 
 ## Background
 
-As part of the [NFDI4Culture](https://nfdi4culture.de/) initiative, efforts are underway to enhance the capabilities of open-source digital preservation software like Archivematica to identify, validate and preserve 3D file formats. This repository provides the **stl_validator_for_archivematica** script to enable STL file validation in Archivematica, which is not supported by default in version 1.13.2, enhancing its 3D content preservation capabilities.
+As part of the [NFDI4Culture](https://nfdi4culture.de/) initiative, efforts are underway to enhance the capabilities of open-source digital preservation software like Archivematica to identify, validate and preserve 3D file formats. This repository provides the **stl_validator_for_archivematica** script to enable ASCII based STL file validation in Archivematica, which is not supported by default in version 1.13.2, enhancing its 3D content preservation capabilities.
 
 ## Related projects
 
