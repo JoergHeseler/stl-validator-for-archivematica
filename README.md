@@ -16,7 +16,7 @@ To install the **stl_validator_for_archivematica** script, follow these steps:
     - **Command usage**: Select **Validation**.
 - Click **Save**.
 
-### 2. Create a new validation rule for ASCII based glTF 1.0
+### 2. Create a new validation rule for ASCII based STL
 - In the Archivematica frontend, navigate to **Preservation planning** > **Validation** > **Rules** > **Create new rule** or go directly to [this link](http://10.10.10.20/fpr/fprule/create/).
 - Fill in the following fields:
     - **Purpose**: Select **Validation**.
