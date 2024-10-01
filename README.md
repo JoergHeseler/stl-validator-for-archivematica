@@ -30,6 +30,8 @@ You can test the validator using the sample files located in the [`test`](./test
 
 Files with no errors end with the filename `_valid` and should return error code **0** when validated with this script. However, all other files contain errors and should return error code **1** instead.
 
+You can view the error codes and detailed validation results in the Archivmatica frontend after starting a transfer by expanding the `▸ Microservice: Validation` section and clicking on the gear icon of `Job: Validate formats`.
+
 ## Dependencies
 
 [Archivematica 1.13.2](https://github.com/artefactual/archivematica/releases/tag/v1.13.2) was used to analyze, design, develop and test this script.
