@@ -24,6 +24,10 @@ To install the **stl_validator_for_archivematica** script, follow these steps:
     - **Command**: Select **Validate using stl_validator**.
 - Click **Save**.
 
+## Test
+
+You can test the validator using the sample files located in the [test](./test/) folder.
+
 ## Dependencies
 
 [Archivematica 1.13.2](https://github.com/artefactual/archivematica/releases/tag/v1.13.2) was used to analyze, design, develop and test this script.
