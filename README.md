@@ -28,9 +28,9 @@ To install the **stl_validator_for_archivematica** script, follow these steps:
 
 You can test this validator using the sample files located in the [`test`](./test/) folder.
 
-Files with no errors end with the filename `_valid` and should return error code **0** when validated with this script. However, all other files contain errors and should return error code **1** instead.
-
 You can view the error codes and detailed validation results in the Archivmatica frontend after starting a transfer by expanding the `▸ Microservice: Validation` section and clicking on the gear icon of `Job: Validate formats`.
+
+Files with no errors end with the filename `_valid` and should pass validation with this script (i. e. return error code **0**) when validated with this script. However, all other files contain errors and should fail validation (i. e. return error code **1**).
 
 ## Dependencies
 
