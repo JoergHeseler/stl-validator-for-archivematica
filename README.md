@@ -28,6 +28,8 @@ To install the **stl_validator_for_archivematica** script, follow these steps:
 
 You can test the validator using the sample files located in the [test](./test/) folder.
 
+Files that are error-free end with the filename "_valid" and return error code "0" when validated with this script. However, files that contain errors return error code "1" when validated.
+
 ## Dependencies
 
 [Archivematica 1.13.2](https://github.com/artefactual/archivematica/releases/tag/v1.13.2) was used to analyze, design, develop and test this script.
