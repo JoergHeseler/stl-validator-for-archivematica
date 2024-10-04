@@ -1,17 +1,17 @@
-# stl_validator_for_archivematica
+# stl-validator-for-archivematica
 
-**stl_validator_for_archivematica** is a script that enables [Archivematica](https://www.archivematica.org/) to validate ASCII based Standard Tessellation Language (STL) files.
+**stl-validator-for-archivematica** is a script that enables [Archivematica](https://www.archivematica.org/) to validate ASCII based Standard Tessellation Language (STL) files.
 
 ## Installation
 
-To install the **stl_validator_for_archivematica** script, follow these steps:
+To install the **stl-validator-for-archivematica** script, follow these steps:
 
 ### 1. Create a new validation command
 - In the Archivematica frontend, navigate to **Preservation planning** > **Validation** > **Commands** > **Create new command** or go directly to [this link](http://10.10.10.20/fpr/fpcommand/create/).
 - Fill in the following fields:
     - **The related tool**: Select **Archivematica script**.
-    - **Description**: Enter `Validate using stl_validator`.
-    - **Script**: Paste the entire content of the **stl_validator.py** file.
+    - **Description**: Enter `Validate using stl-validator`.
+    - **Script**: Paste the entire content of the **stl-validator.py** file.
     - **Script type**: Select **Python script**.
     - **Command usage**: Select **Validation**.
 - Click **Save**.
@@ -21,7 +21,7 @@ To install the **stl_validator_for_archivematica** script, follow these steps:
 - Fill in the following fields:
     - **Purpose**: Select **Validation**.
     - **The related format**: Select **Text (Source Code): STL (Standard Tessellation Language) ASCII: STL (x-fmt/108)**.
-    - **Command**: Select **Validate using stl_validator**.
+    - **Command**: Select **Validate using stl-validator**.
 - Click **Save**.
 
 ## Test
@@ -30,7 +30,7 @@ To test this validator, you can use the sample STL files located in the [`test`]
 
 You can view the error codes and detailed validation results in the Archivmatica frontend after starting a transfer by expanding the `▸ Microservice: Validation` section and clicking on the gear icon of `Job: Validate formats`.
 
-Files with no errors end with the filename `_valid` and should pass validation with this script (i. e. return error code **0**). However, all other files contain errors and should fail validation (i. e. return error code **1**).
+Files with no errors end with the filename `-valid` and should pass validation with this script (i. e. return error code **0**). However, all other files contain errors and should fail validation (i. e. return error code **1**).
 
 ## Dependencies
 
@@ -38,15 +38,15 @@ Files with no errors end with the filename `_valid` and should pass validation w
 
 ## Background
 
-As part of the [NFDI4Culture](https://nfdi4culture.de/) initiative, efforts are underway to enhance the capabilities of open-source digital preservation software like Archivematica to identify, validate and preserve 3D file formats. This repository provides the **stl_validator_for_archivematica** script to enable ASCII based Standard Tessellation Language (STL) file validation in Archivematica, which is not supported by default in version 1.13.2, enhancing its 3D content preservation capabilities.
+As part of the [NFDI4Culture](https://nfdi4culture.de/) initiative, efforts are underway to enhance the capabilities of open-source digital preservation software like Archivematica to identify, validate and preserve 3D file formats. This repository provides the **stl-validator-for-archivematica** script to enable ASCII based Standard Tessellation Language (STL) file validation in Archivematica, which is not supported by default in version 1.13.2, enhancing its 3D content preservation capabilities.
 
 ## Related projects
 
-- [3d_sample_files_for_digital_preservation_testing](https://github.com/JoergHeseler/3d_sample_files_for_digital_preservation_testing)
-- [dae_validator_for_archivematica](https://github.com/JoergHeseler/dae_validator_for_archivematica)
-- [gltf_validator_for_archivematica](https://github.com/JoergHeseler/gltf_validator_for_archivematica)
-- [siegfried_falls_back_on_fido_identifier_for_archivematica](https://github.com/JoergHeseler/siegfried_falls_back_on_fido_identifier_for_archivematica)
-- [x3d_validator_for_archivematica](https://github.com/JoergHeseler/x3d_validator_for_archivematica)
+- [3d-sample-files-for-digital-preservation-testing](https://github.com/JoergHeseler/3d-sample-files-for-digital-preservation-testing)
+- [dae-validator-for-archivematica](https://github.com/JoergHeseler/dae-validator-for-archivematica)
+- [gltf-validator-for-archivematica](https://github.com/JoergHeseler/gltf-validator-for-archivematica)
+- [siegfried-falls-back-on-fido-identifier-for-archivematica](https://github.com/JoergHeseler/siegfried-falls-back-on-fido-identifier-for-archivematica)
+- [x3d-validator-for-archivematica](https://github.com/JoergHeseler/x3d-validator-for-archivematica)
 
 ## Imprint
 
