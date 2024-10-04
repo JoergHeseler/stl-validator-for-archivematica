@@ -11,7 +11,7 @@ To install the **stl-validator-for-archivematica** script, follow these steps:
 - Fill in the following fields:
     - **The related tool**: Select **Archivematica script**.
     - **Description**: Enter `Validate using stl-validator`.
-    - **Script**: Paste the entire content of the **stl-validator.py** file.
+    - **Script**: Paste the entire content of the [**stl-validator.py**](./src/stl_validator.py) file.
     - **Script type**: Select **Python script**.
     - **Command usage**: Select **Validation**.
 - Click **Save**.
