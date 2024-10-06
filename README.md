@@ -1,4 +1,4 @@
-# stl-validator-for-archivematica
+# STL Validator for Archivematica
 
 **stl-validator-for-archivematica** is a script that enables [Archivematica](https://www.archivematica.org/) to validate ASCII based Standard Tessellation Language (STL) files.
 
