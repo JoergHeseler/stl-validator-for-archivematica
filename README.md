@@ -4,7 +4,7 @@ This repository provides a script that enables [Archivematica](https://www.archi
 
 ## Installation
 
-To install the this script, follow these steps:
+To install this script, follow these steps:
 
 ### 1. Create a new validation command
 - In the Archivematica frontend, navigate to **Preservation planning** > **Validation** > **Commands** > **Create new command** or go directly to [this link](http://10.10.10.20/fpr/fpcommand/create/).
