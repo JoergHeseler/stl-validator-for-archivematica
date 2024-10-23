@@ -12,9 +12,10 @@ To install this script, follow these steps:
 - Fill in the following fields:
   - **The related tool**: Select **Archivematica script**.
   - **Description**: Enter `Validate using stl-validator`.
-  - **Script**: Paste the entire content of the [**stl-validator.py**](./src/stl-validator.py) file.
+  - **Command**: Paste the entire content of the [**stl-validator.py**](./src/stl-validator.py) file.
   - **Script type**: Select **Python script**.
   - **Command usage**: Select **Validation**.
+  - Leave all other fields and comboboxes untouched.
 - Click **Save**.
 
 ### 2. Create a new validation rule for ASCII based STL
