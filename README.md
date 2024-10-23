@@ -15,7 +15,7 @@ To install this script, follow these steps:
   - **Command**: Paste the entire content of the [**stl-validator.py**](./src/stl-validator.py) file.
   - **Script type**: Select **Python script**.
   - **Command usage**: Select **Validation**.
-  - Leave all other fields and comboboxes untouched.
+  - Leave all other input fields and combo boxes untouched.
 - Click **Save**.
 
 ### 2. Create a new validation rule for ASCII based STL
