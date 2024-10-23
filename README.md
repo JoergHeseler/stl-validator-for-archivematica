@@ -7,26 +7,28 @@ This repository provides a script that enables [Archivematica](https://www.archi
 To install this script, follow these steps:
 
 ### 1. Create a new validation command
+
 - In the Archivematica frontend, navigate to **Preservation planning** > **Validation** > **Commands** > **Create new command** or go directly to [this link](http://10.10.10.20/fpr/fpcommand/create/).
 - Fill in the following fields:
-    - **The related tool**: Select **Archivematica script**.
-    - **Description**: Enter `Validate using stl-validator`.
-    - **Script**: Paste the entire content of the [**stl-validator.py**](./src/stl-validator.py) file.
-    - **Script type**: Select **Python script**.
-    - **Command usage**: Select **Validation**.
+  - **The related tool**: Select **Archivematica script**.
+  - **Description**: Enter `Validate using stl-validator`.
+  - **Script**: Paste the entire content of the [**stl-validator.py**](./src/stl-validator.py) file.
+  - **Script type**: Select **Python script**.
+  - **Command usage**: Select **Validation**.
 - Click **Save**.
 
 ### 2. Create a new validation rule for ASCII based STL
+
 - In the Archivematica frontend, navigate to **Preservation planning** > **Validation** > **Rules** > **Create new rule** or go directly to [this link](http://10.10.10.20/fpr/fprule/create/).
 - Fill in the following fields:
-    - **Purpose**: Select **Validation**.
-    - **The related format**: Select **Text (Source Code): STL (Standard Tessellation Language) ASCII: STL (x-fmt/108)**.
-    - **Command**: Select **Validate using stl-validator**.
+  - **Purpose**: Select **Validation**.
+  - **The related format**: Select **Text (Source Code): STL (Standard Tessellation Language) ASCII: STL (x-fmt/108)**.
+  - **Command**: Select **Validate using stl-validator**.
 - Click **Save**.
 
 ## Test
 
-To test this validator, you can use the sample STL files located [`here`](https://github.com/JoergHeseler/3d-sample-files-for-digital-preservation-testing/tree/main/stl).
+To test this validator, you can use the sample STL files located [here](https://github.com/JoergHeseler/3d-sample-files-for-digital-preservation-testing/tree/main/stl).
 
 You can view the error codes and detailed validation results in the Archivmatica frontend after starting a transfer by expanding the `▸ Microservice: Validation` section and clicking on the gear icon of `Job: Validate formats`.
 
