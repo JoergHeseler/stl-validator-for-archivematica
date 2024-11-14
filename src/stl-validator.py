@@ -68,7 +68,7 @@ def main(target):
         with open(target, 'r') as file:
             lines = file.readlines()
                                  
-        lines = [line for line in lines if line.strip()]
+        lines = [line.strip() for line in lines]
         
         y = 0
         if not lines[y].startswith("solid"):
