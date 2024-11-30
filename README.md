@@ -39,7 +39,7 @@ Files with no errors end with `valid` in their name and should pass validation w
 
 ### In the command line prompt:
 
-You can use the validator at the command line prompt by typing `python stl-validator.py <filename>`. The additional parameter `--details` will print more detailed warning information.
+You can use the validator at the command line prompt by typing `python stl-validator.py <filename>`. The additional parameter `--details` will print specific warning information.
 
 ## Dependencies
 
