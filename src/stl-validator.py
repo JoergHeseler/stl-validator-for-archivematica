@@ -20,7 +20,7 @@ DEBUG = 1
 warning_count = 0
 errors_count = 0
 first_error_message = ""
-output_warnings = True 
+output_detailed_warnings = False 
 # stop_on_first_error = False
 
 ######################## GEOMETRY FUNCTIONS ########################
@@ -70,9 +70,9 @@ lines = []
 def print_warning(expected, got = None):
     global y
     global warning_count
-    global output_warnings
+    global output_detailed_warnings
     warning_count += 1
-    if output_warnings:
+    if output_detailed_warnings:
         if got:
             print(f"Warning on line {y + 1}: Expected '{expected}' but got '{got.strip()}'.")
         else:
@@ -250,6 +250,6 @@ def main(target):
         return ERROR_CODE
 
 if __name__ == "__main__":
-    output_warnings = not any(arg.strip().lower() == "--output_no_warnings" for arg in sys.argv)
+    output_detailed_warnings = any(arg.strip().lower() == "--details" for arg in sys.argv)
     target = sys.argv[1]
     sys.exit(main(target))
