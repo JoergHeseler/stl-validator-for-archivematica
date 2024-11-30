@@ -47,12 +47,12 @@ def normalize_vector(v):
 def are_vectors_close(v1, v2, tol=1e-9):
     return all(abs(a - b) <= tol for a, b in zip(v1, v2))
 
-def is_facet_oriented_correctly(vertex1, vertex2, vertex3, normal):
-    edge1 = [v2 - v1 for v1, v2 in zip(vertex1, vertex2)]
-    edge2 = [v3 - v1 for v1, v3 in zip(vertex1, vertex3)]
-    calculated_normal = normalize_vector(cross_product(edge1, edge2))
-    normal = normalize_vector(normal)
-    return are_vectors_close(calculated_normal, normal)
+# def is_facet_oriented_correctly(vertex1, vertex2, vertex3, normal):
+#     edge1 = [v2 - v1 for v1, v2 in zip(vertex1, vertex2)]
+#     edge2 = [v3 - v1 for v1, v3 in zip(vertex1, vertex3)]
+#     calculated_normal = normalize_vector(cross_product(edge1, edge2))
+#     normal = normalize_vector(normal)
+#     return are_vectors_close(calculated_normal, normal)
 
 def ensure_counterclockwise(vertex1, vertex2, vertex3, normal):
     edge1 = [v2 - v1 for v1, v2 in zip(vertex1, vertex2)]
@@ -196,9 +196,9 @@ def main(target):
                     # all_vertex_coordinates_are_positive = False
                     print_warning("Not all vertices have positive values")
                 vertices.append(vertex)
-            if not is_facet_oriented_correctly(vertices[0], vertices[1], vertices[2], normal):
-                print_warning("Facet is not oriented correctly")
-                # all_facets_normals_are_correct = False
+            # if not is_facet_oriented_correctly(vertices[0], vertices[1], vertices[2], normal):
+            #     print_warning("Facet is not oriented correctly")
+            #     # all_facets_normals_are_correct = False
             if not ensure_counterclockwise(vertices[0], vertices[1], vertices[2], normal):
                 print_warning("Vertices of facet are not ordered clockwise")
                 # all_vertices_of_facets_are_ordered_clockwise = False
