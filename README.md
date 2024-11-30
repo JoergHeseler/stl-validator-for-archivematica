@@ -29,11 +29,17 @@ To install this script, follow these steps:
 
 ## Test
 
+### In Archivematica:
+
 To test this validator, you can use the sample STL files located [here](https://github.com/JoergHeseler/3d-sample-files-for-digital-preservation-testing/tree/main/stl).
 
 You can view the error codes and detailed validation results in the Archivmatica frontend after starting a transfer by expanding the `▸ Microservice: Validation` section and clicking on the gear icon of `Job: Validate formats`.
 
 Files with no errors end with `valid` in their name and should pass validation with this script (i. e. return error code **0**). However, all other files contain errors and should fail validation (i. e. return error code **1**).
+
+### In the command line prompt:
+
+You can also use the validator at the command line prompt by typing `python _filename_`. The additional parameter `--details` will print more detailed warning information.
 
 ## Dependencies
 
