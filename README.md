@@ -1,6 +1,6 @@
 # STL Validator for Archivematica
 
-This repository provides a script that enables [Archivematica](https://www.archivematica.org/) to validate ASCII based Standard Tessellation Language (STL) files.
+This repository provides a script that enables [Archivematica](https://www.archivematica.org/) to validate Standard Tessellation Language (STL) files.
 
 ## Installation
 
@@ -56,7 +56,7 @@ You can use the validator at the command line prompt by typing `python stl-valid
 
 ## Background
 
-As part of the [NFDI4Culture](https://nfdi4culture.de/) initiative, efforts are underway to enhance the capabilities of open-source digital preservation software like Archivematica to identify, validate and preserve 3D file formats. This repository provides a script to enable ASCII based Standard Tessellation Language (STL) file validation in Archivematica, which is not supported by default in version 1.13.2, enhancing its 3D content preservation capabilities.
+As part of the [NFDI4Culture](https://nfdi4culture.de/) initiative, efforts are underway to enhance the capabilities of open-source digital preservation software like Archivematica to identify, validate and preserve 3D file formats. This repository provides a script to enable Standard Tessellation Language (STL) file validation in Archivematica, which is not supported by default in version 1.13.2, enhancing its 3D content preservation capabilities.
 
 ## Related projects
 
