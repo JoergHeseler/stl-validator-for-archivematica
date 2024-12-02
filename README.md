@@ -18,12 +18,21 @@ To install this script, follow these steps:
   - Leave all other input fields and combo boxes untouched.
 - Click **Save**.
 
-### 2. Create a new validation rule for ASCII based STL
+### 2. Create a new validation rule for ASCII STL
 
 - In the Archivematica frontend, navigate to **Preservation planning** > **Validation** > **Rules** > **Create new rule** or go directly to [this link](http://10.10.10.20/fpr/fprule/create/).
 - Fill in the following fields:
   - **Purpose**: Select **Validation**.
   - **The related format**: Select **Text (Source Code): STL (Standard Tessellation Language) ASCII: STL (x-fmt/108)**.
+  - **Command**: Select **Validate using stl-validator**.
+- Click **Save**.
+
+### 3. Create a new validation rule for binary STL
+
+- In the Archivematica frontend, navigate to **Preservation planning** > **Validation** > **Rules** > **Create new rule** or go directly to [this link](http://10.10.10.20/fpr/fprule/create/).
+- Fill in the following fields:
+  - **Purpose**: Select **Validation**.
+  - **The related format**: Select **CAD: STL (Standard Tessellation Language) Binary: STL (Standard Tessellation Language) Binary (fmt/865)**.
   - **Command**: Select **Validate using stl-validator**.
 - Click **Save**.
 
