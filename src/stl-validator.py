@@ -163,7 +163,7 @@ def validate_binary_stl_file(file_path):
     global errors_count, warning_count, first_error_message
     with open(file_path, 'rb') as file:
         file.read(80) # Header
-        triangle_count = 1 # struct.unpack('<I', file.read(4))[0]
+        triangle_count = struct.unpack('<I', file.read(4))[0]
         
         for i in range(triangle_count):
             normal = struct.unpack('<3f', file.read(12))
