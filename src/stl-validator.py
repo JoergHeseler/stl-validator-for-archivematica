@@ -180,7 +180,7 @@ def validate_binary_stl_file(file_path):
                 print_error_with_file_pos(pos, "File contains NaN values in normal or vertex coordinates")
             
             if attr_byte_count != 0:
-                print_error_with_file_pos(pos, "Attribute byte count should be set to zero")
+                print_error_with_file_pos(pos, f"Attribute byte count should be set to '0', but is '{attr_byte_count}'")
                 
 
 def format_event_outcome_detail_note(format, version, result):
