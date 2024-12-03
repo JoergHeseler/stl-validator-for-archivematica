@@ -277,14 +277,15 @@ def validate_stl_file(file_path):
     try:
         if is_binary_stl(file_path):
             validate_binary_stl_file(file_path)
+            version = 'binary'
         else:
             validate_ascii_stl_file(file_path)
+            version = 'ASCII'
 
         if error_count > 0:
             raise STLValidatorException(f"Validation failed: errors={error_count}, warnings={warning_count}, first error: {first_error_message}")
         
-        format = "STL"
-        version = "1.0"
+        format = 'STL (Standard Tessellation Language)'
 
         note = format_event_outcome_detail_note(format, version, f"errors: {error_count}, warnings: {warning_count}")
 
