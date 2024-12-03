@@ -17,9 +17,12 @@ import re
 SUCCESS_CODE = 0
 ERROR_CODE = 1
 DEBUG = 1
+strict_mode = True
+ERROR = True
+WARNING = False
 
 warning_count = 0
-errors_count = 0
+error_count = 0
 first_error_message = ""
 output_detailed_warnings = False 
 # stop_on_first_error = False
@@ -75,51 +78,44 @@ def is_counterclockwise(vertex1, vertex2, vertex3, normal):
 line_index = 0
 lines = []
 
-def print_warning_with_line_index(expected, got = None):
-    global line_index, warning_count, output_detailed_warnings
-    warning_count += 1
-    if output_detailed_warnings:
+def handle_error_with_line_index(type, expected, got = None):
+    global line_index, error_count, warning_count, output_detailed_warnings
+    if type == ERROR:
+        # Error
+        error_count += 1
         if got:
-            print(f"Warning on line {line_index + 1}: Expected '{expected}' but got '{got.strip()}'.")
+            error_message = f"Error on line {line_index + 1}: Expected '{expected}' but got '{got.strip()}'."
         else:
-            print(f"Warning on line {line_index + 1}: {expected}.")
-    
-def print_warning_with_file_pos(pos, expected, got = None):
-    global warning_count, output_detailed_warnings
-    warning_count += 1
-    if output_detailed_warnings:
-        if got:
-            print(f"Warning on position {pos}: Expected '{expected}' but got '{got.strip()}'.")
-        else:
-            print(f"Warning on position {pos}: {expected}.")
+            error_message = f"Error on line {line_index + 1}: {expected}."
+        raise STLValidatorException(error_message)
+    elif type == WARNING:
+        # Warning
+        warning_count += 1
+        if output_detailed_warnings:
+            if got:
+                print(f"Warning on line {line_index + 1}: Expected '{expected}' but got '{got.strip()}'.")
+            else:
+                print(f"Warning on line {line_index + 1}: {expected}.")
 
-def print_error_with_line_index(expected, got = None):
-    global line_index, errors_count, first_error_message, stop_on_first_error
-    if first_error_message == "":
+def handle_error_with_file_pos(type, pos, expected, got = None):
+    global error_count, warning_count, output_detailed_warnings
+    if type == ERROR:
+    # Error
+        error_count += 1
         if got:
-            first_error_message = f"line {line_index + 1}: Expected '{expected}' but got '{got.strip()}'."
+            error_message = f"Error on position {pos}: Expected '{expected}' but got '{got.strip()}'."
         else:
-            first_error_message = f"line {line_index + 1}: {expected}."
-    error_message = f"Error on {first_error_message}"
-    errors_count += 1
-    # if stop_on_first_error:
-    raise STLValidatorException(error_message)
-    # else:
-    # print(error_message)
+            error_message = f"Error on position {pos}: {expected}."
+        raise STLValidatorException(error_message)
+    elif type == WARNING:
+    # Warning
+        warning_count += 1
+        if output_detailed_warnings:
+            if got:
+                print(f"Warning on position {pos}: Expected '{expected}' but got '{got.strip()}'.")
+            else:
+                print(f"Warning on position {pos}: {expected}.")
 
-def print_error_with_file_pos(pos, expected, got = None):
-    global errors_count, first_error_message, stop_on_first_error
-    if first_error_message == "":
-        if got:
-            first_error_message = f"position {pos}: Expected '{expected}' but got '{got.strip()}'."
-        else:
-            first_error_message = f"position {pos}: {expected}."
-    error_message = f"Error on {first_error_message}"
-    errors_count += 1
-    # if stop_on_first_error:
-    raise STLValidatorException(error_message)
-    # else:
-    # print(error_message)
 
 def get_current_line():
     global line_index, lines
@@ -129,7 +125,7 @@ def skip_empty_lines():
     global line_index
     global lines
     while len(lines) > line_index + 1 and lines[line_index].strip() == "":
-        print_warning_with_line_index("Line is empty")
+        handle_error_with_line_index(WARNING, "Line is empty")
         line_index += 1
 
 def init_line():
@@ -167,7 +163,7 @@ class STLValidatorException(Exception):
             # print(result)
 
 def validate_binary_stl_file(file_path):
-    global errors_count, warning_count, first_error_message
+    global error_count, warning_count, first_error_message, strict_mode
     with open(file_path, 'rb') as file:
         file.read(80) # Header
         triangle_count = struct.unpack('<I', file.read(4))[0]
@@ -181,13 +177,16 @@ def validate_binary_stl_file(file_path):
             pos = 84 + i * 50
 
             if any(coord < 0 for coord in vertex1 + vertex2 + vertex3):
-                print_warning_with_file_pos(pos, "Not all vertices have positive values")
+                handle_error_with_file_pos(WARNING or strict_mode, pos, "Not all vertices of this facet have positive values")
+
+            if not is_counterclockwise(vertex1, vertex2, vertex3, normal):
+                handle_error_with_line_index(WARNING or strict_mode, "Vertices of this facet are not ordered counterclockwise")
 
             if any(math.isnan(v) for v in normal + vertex1 + vertex2 + vertex3):
-                print_error_with_file_pos(pos, "File contains NaN values in normal or vertex coordinates")
+                handle_error_with_file_pos(ERROR, pos, "File contains NaN values in normal or vertex coordinates")
             
             if attr_byte_count != 0:
-                print_error_with_file_pos(pos, f"Attribute byte count should be '0', but got '{attr_byte_count}'")
+                handle_error_with_file_pos(ERROR, pos, f"Attribute byte count should be '0', but got '{attr_byte_count}'")
                 
 
 def format_event_outcome_detail_note(format, version, result):
@@ -201,16 +200,16 @@ def format_event_outcome_detail_note(format, version, result):
 
 
 def validate_ascii_stl_file(target):
-    global line_index, lines
+    global line_index, lines, strict_mode
     with open(target, 'r') as file:
         lines = [re.sub(r'\s+', ' ' , line.strip()) for line in file.readlines()]
     
     init_line()
 
     if not get_current_line().startswith("solid"):
-        print_error_with_line_index("solid", get_current_line())     
+        handle_error_with_line_index(ERROR, "solid", get_current_line())     
     if not re.search(f"^solid [^\n]+$", get_current_line()):
-        print_warning_with_line_index("solid <string>", get_current_line())
+        handle_error_with_line_index(WARNING, "solid <string>", get_current_line())
         solid_name = ""
     else:
         solid_name = str(get_current_line()[6:]).lstrip()
@@ -228,10 +227,10 @@ def validate_ascii_stl_file(target):
 
     for _ in range(total_facet_count):
         if not re.search(f"^facet normal -?\d*(\.\d+)?([Ee][+-]?\d+)? -?\d*(\.\d+)?([Ee][+-]?\d+)? -?\d*(\.\d+)?([Ee][+-]?\d+)?$", get_current_line()):
-            print_error_with_line_index("facet normal <float> <float> <float>", get_current_line())
+            handle_error_with_line_index(ERROR, "facet normal <float> <float> <float>", get_current_line())
         go_to_next_line()
         if not "outer loop" == get_current_line():
-            print_error_with_line_index("outer loop", get_current_line())
+            handle_error_with_line_index(ERROR, "outer loop", get_current_line())
         go_to_next_line()
 
         normal = list(map(float, get_current_line().split()[2:]))
@@ -244,50 +243,50 @@ def validate_ascii_stl_file(target):
             # leading minus, to support negative vertices to support many
             # programs are able to export
             if not re.search(f"^vertex -?\d*(\.\d+)?([Ee][+-]?\d+)? -?\d*(\.\d+)?([Ee][+-]?\d+)? -?\d*(\.\d+)?([Ee][+-]?\d+)?$", get_current_line()):
-                print_error_with_line_index("vertex <unsigned float> <unsigned float> <unsigned float>", get_current_line())
+                handle_error_with_line_index(ERROR, "vertex <unsigned float> <unsigned float> <unsigned float>", get_current_line())
             # if not re.search(f"^vertex \d*(\.\d+)?([Ee][+-]?\d+)? \d*(\.\d+)?([Ee][+-]?\d+)? \d*(\.\d+)?([Ee][+-]?\d+)?$", get_current_line()):
                 # print_warning("vertex <unsigned float> <unsigned float> <unsigned float>", get_current_line())
             vertex = list(map(float, get_current_line().split()[1:]))
             go_to_next_line()
             if any(coord < 0 for coord in vertex):
                 # all_vertex_coordinates_are_positive = False
-                print_warning_with_line_index("Not all vertices have positive values")
+                handle_error_with_line_index(WARNING or strict_mode, "Not all vertice coordinates have positive values")
             vertices.append(vertex)
         # if not is_facet_oriented_correctly(vertices[0], vertices[1], vertices[2], normal):
         #     print_warning("Facet is not oriented correctly")
         #     # all_facets_normals_are_correct = False
         if not is_counterclockwise(vertices[0], vertices[1], vertices[2], normal):
-            print_warning_with_line_index("Vertices of facet are not ordered clockwise")
+            handle_error_with_line_index(WARNING or strict_mode, "Vertices of this facet are not ordered counterclockwise")
             # all_vertices_of_facets_are_ordered_clockwise = False
         if not "endloop" == get_current_line():
-            print_error_with_line_index("endloop", get_current_line())
+            handle_error_with_line_index(ERROR, "endloop", get_current_line())
         go_to_next_line()
         if not "endfacet" == get_current_line():
-            print_error_with_line_index("endfacet", get_current_line())
+            handle_error_with_line_index(ERROR, "endfacet", get_current_line())
         go_to_next_line()
     if not re.search("^endsolid", get_current_line()):
-        print_error_with_line_index("endsolid", get_current_line())
+        handle_error_with_line_index(ERROR, "endsolid", get_current_line())
     if solid_name != "":
         if not f"endsolid {solid_name}" == get_current_line():
-            print_error_with_line_index(f"endsolid {solid_name}", get_current_line())
+            handle_error_with_line_index(ERROR, f"endsolid {solid_name}", get_current_line())
     go_to_next_line()
     
 
 def validate_stl_file(file_path):
-    global errors_count, warning_count, first_error_message
+    global error_count, warning_count, first_error_message
     try:
         if is_binary_stl(file_path):
             validate_binary_stl_file(file_path)
         else:
             validate_ascii_stl_file(file_path)
 
-        if errors_count > 0:
-            raise STLValidatorException(f"Validation failed: errors={errors_count}, warnings={warning_count}, first error: {first_error_message}")
+        if error_count > 0:
+            raise STLValidatorException(f"Validation failed: errors={error_count}, warnings={warning_count}, first error: {first_error_message}")
         
         format = "STL"
         version = "1.0"
 
-        note = format_event_outcome_detail_note(format, version, f"errors: {errors_count}, warnings: {warning_count}")
+        note = format_event_outcome_detail_note(format, version, f"errors: {error_count}, warnings: {warning_count}")
 
         print(
             json.dumps(
@@ -318,5 +317,7 @@ def validate_stl_file(file_path):
 
 if __name__ == "__main__":
     output_detailed_warnings = any(arg.strip().lower() == "--details" for arg in sys.argv)
+    if any(arg.strip().lower() == "--tolerant" for arg in sys.argv):
+        strict_mode = False
     target = sys.argv[1]
     sys.exit(validate_stl_file(target))
