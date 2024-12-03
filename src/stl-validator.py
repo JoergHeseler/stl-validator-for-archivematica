@@ -55,13 +55,20 @@ def are_vectors_close(v1, v2, tol=1e-9):
 #     normal = normalize_vector(normal)
 #     return are_vectors_close(calculated_normal, normal)
 
-def ensure_counterclockwise(vertex1, vertex2, vertex3, normal):
+# def ensure_counterclockwise(vertex1, vertex2, vertex3, normal):
+#     edge1 = [v2 - v1 for v1, v2 in zip(vertex1, vertex2)]
+#     edge2 = [v3 - v1 for v1, v3 in zip(vertex1, vertex3)]
+#     calculated_normal = cross_product(edge1, edge2)
+#     if dot_product(calculated_normal, normal) < 0:
+#         vertex2, vertex3 = vertex3, vertex2
+#     return vertex1, vertex2, vertex3
+
+def is_counterclockwise(vertex1, vertex2, vertex3, normal):
     edge1 = [v2 - v1 for v1, v2 in zip(vertex1, vertex2)]
     edge2 = [v3 - v1 for v1, v3 in zip(vertex1, vertex3)]
     calculated_normal = cross_product(edge1, edge2)
-    if dot_product(calculated_normal, normal) < 0:
-        vertex2, vertex3 = vertex3, vertex2
-    return vertex1, vertex2, vertex3
+    return dot_product(calculated_normal, normal) > 0
+
 
 ######################## LINE FUNCTIONS ########################
 
@@ -249,7 +256,7 @@ def validate_ascii_stl_file(target):
         # if not is_facet_oriented_correctly(vertices[0], vertices[1], vertices[2], normal):
         #     print_warning("Facet is not oriented correctly")
         #     # all_facets_normals_are_correct = False
-        if not ensure_counterclockwise(vertices[0], vertices[1], vertices[2], normal):
+        if not is_counterclockwise(vertices[0], vertices[1], vertices[2], normal):
             print_warning_with_line_index("Vertices of facet are not ordered clockwise")
             # all_vertices_of_facets_are_ordered_clockwise = False
         if not "endloop" == get_current_line():
