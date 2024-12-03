@@ -316,7 +316,7 @@ def validate_stl_file(file_path):
 ######################## MAIN FUNCTION ########################
 
 if __name__ == "__main__":
-    output_detailed_warnings = any(arg.strip().lower() == "--details" for arg in sys.argv)
+    output_detailed_warnings = any(arg.strip().lower() == "--warnings" for arg in sys.argv)
     if any(arg.strip().lower() == "--tolerant" for arg in sys.argv):
         strict_mode = False
     target = sys.argv[1]
