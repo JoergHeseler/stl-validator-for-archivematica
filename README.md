@@ -48,7 +48,12 @@ Files with no errors end with `valid` in their name and should pass validation w
 
 ### In the command line prompt:
 
-You can use the validator at the command line prompt by typing `python stl-validator.py <STL file to validate>`. The additional parameter `--details` will print specific warning information.
+You can use the validator at the command line prompt by typing `python stl-validator.py <STL file to validate>`.
+
+#### Console switches
+
+`--warnings` prints all warning information to standard output.
+`--tolerant` passes validation even if the vertex coordinates are negative or the vertices of each facet are not arranged counterclockwise.
 
 ## Dependencies
 
