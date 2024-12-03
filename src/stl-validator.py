@@ -204,9 +204,9 @@ def validate_ascii_stl_file(target):
         print_error_with_line_index("solid", get_current_line())     
     if not re.search(f"^solid [^\n]+$", get_current_line()):
         print_warning_with_line_index("solid <string>", get_current_line())
-        name = ""
+        solid_name = ""
     else:
-        name = str(get_current_line()[6:]).lstrip()
+        solid_name = str(get_current_line()[6:]).lstrip()
     go_to_next_line()
     
     # The notation, “{…}+,” means that the contents of the brace brackets
@@ -260,9 +260,9 @@ def validate_ascii_stl_file(target):
         go_to_next_line()
     if not re.search("^endsolid", get_current_line()):
         print_error_with_line_index("endsolid", get_current_line())
-    if name != "":
-        if not f"endsolid {name}" == get_current_line():
-            print_error_with_line_index(f"endsolid {name}", get_current_line())
+    if solid_name != "":
+        if not f"endsolid {solid_name}" == get_current_line():
+            print_error_with_line_index(f"endsolid {solid_name}", get_current_line())
     go_to_next_line()
     
 
