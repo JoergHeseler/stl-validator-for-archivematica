@@ -268,7 +268,7 @@ def validate_ascii_stl_file(target):
         handle_error_with_line_index(ERROR, "endsolid", get_current_line())
     if solid_name != "":
         if not f"endsolid {solid_name}" == get_current_line():
-            handle_error_with_line_index(ERROR, f"endsolid {solid_name}", get_current_line())
+            handle_error_with_line_index(WARNING or strict_mode, f"endsolid {solid_name}", get_current_line())
     go_to_next_line()
     
 
