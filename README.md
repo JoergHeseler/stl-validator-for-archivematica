@@ -53,7 +53,7 @@ You can use the validator at the command line prompt by typing `python stl-valid
 #### Command line switches:
 
 - `--warnings` prints all warning information to standard output.
-- `--tolerant` passes validation even if the vertex coordinates are negative or the vertices of each facet are not arranged counterclockwise.
+- `--tolerant` passes validation even if the vertex coordinates are negative, the vertices of each facet are not arranged counterclockwise, or the solid name differs from the endsolid name.
 
 ## Dependencies
 
