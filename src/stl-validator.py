@@ -100,7 +100,7 @@ def handle_error_with_line_index(type, expected, got = None):
 def handle_error_with_file_pos(type, pos, expected, got = None):
     global error_count, warning_count, output_detailed_warnings
     if type == ERROR:
-    # Error
+        # Error
         error_count += 1
         if got:
             error_message = f"Error on position {pos}: Expected '{expected}' but got '{got.strip()}'."
@@ -108,7 +108,7 @@ def handle_error_with_file_pos(type, pos, expected, got = None):
             error_message = f"Error on position {pos}: {expected}."
         raise STLValidatorException(error_message)
     elif type == WARNING:
-    # Warning
+        # Warning
         warning_count += 1
         if output_detailed_warnings:
             if got:
@@ -231,12 +231,12 @@ def validate_ascii_stl_file(target):
     for _ in range(total_facet_count):
         if not re.search(f"^facet normal -?\d*(\.\d+)?([Ee][+-]?\d+)? -?\d*(\.\d+)?([Ee][+-]?\d+)? -?\d*(\.\d+)?([Ee][+-]?\d+)?$", get_current_line()):
             handle_error_with_line_index(ERROR, "facet normal <float> <float> <float>", get_current_line())
+        normal = list(map(float, get_current_line().split()[2:]))
         go_to_next_line()
         if not "outer loop" == get_current_line():
             handle_error_with_line_index(ERROR, "outer loop", get_current_line())
         go_to_next_line()
 
-        normal = list(map(float, get_current_line().split()[2:]))
         vertices = []
         for j in range(3):
         
@@ -320,6 +320,17 @@ def validate_stl_file(file_path):
 ######################## MAIN FUNCTION ########################
 
 if __name__ == "__main__":
+    if len(sys.argv) < 2:
+        print(f'STL Validator, version 1.0.0')
+        print()
+        print(f'This script validates ASCII and binary STL files according to the specifications of https://www.fabbers.com/tech/STL_Format.')
+        print()
+        print(f'Usage: python stl-validator.py <stl-file> [options]')
+        print()        
+        print(f'--warning     prints all warning information to standard output')
+        print(f'--tolerant    passes validation even if the vertex coordinates are negative, the vertices of each facet are not')
+        print(f'              arranged counterclockwise, or the solid name differs from the endsolid name.')
+        sys.exit(0)
     output_detailed_warnings = any(arg.strip().lower() == "--warnings" for arg in sys.argv)
     if any(arg.strip().lower() == "--tolerant" for arg in sys.argv):
         strict_mode = False
