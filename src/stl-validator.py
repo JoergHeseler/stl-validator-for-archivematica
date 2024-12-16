@@ -325,7 +325,7 @@ if __name__ == "__main__":
         print()
         print(f'This script validates ASCII and binary STL files according to the specifications of https://www.fabbers.com/tech/STL_Format.')
         print()
-        print(f'Usage: python stl-validator.py <stl-file> [options]')
+        print(f'Usage: python stl-validator.py <STL file> [options]')
         print()        
         print(f'--warnings    prints all warning information to standard output')
         print(f'--tolerant    passes validation even if the vertex coordinates are negative, the vertices of each facet are not')
