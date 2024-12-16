@@ -327,7 +327,7 @@ if __name__ == "__main__":
         print()
         print(f'Usage: python stl-validator.py <stl-file> [options]')
         print()        
-        print(f'--warning     prints all warning information to standard output')
+        print(f'--warnings    prints all warning information to standard output')
         print(f'--tolerant    passes validation even if the vertex coordinates are negative, the vertices of each facet are not')
         print(f'              arranged counterclockwise, or the solid name differs from the endsolid name.')
         sys.exit(0)
