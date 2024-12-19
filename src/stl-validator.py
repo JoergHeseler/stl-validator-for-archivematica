@@ -84,15 +84,6 @@ def is_counterclockwise(vertex1, vertex2, vertex3, normal):
     return dot_product(calculated_normal, normal) > 0
 
 # New feature: Detect non-manifold geometry
-# def count_shared_edges(facet1, facet2):
-#     """
-#     Counts the number of shared edges between two facets.
-#     """
-#     edges1 = {(tuple(facet1[i]), tuple(facet1[(i + 1) % 3])) for i in range(3)}
-#     edges2 = {(tuple(facet2[i]), tuple(facet2[(i + 1) % 3])) for i in range(3)}
-#     return len(edges1.intersection(edges2))
-
-
 def count_shared_edges_optimized(facets):
     """
     Optimized detection of shared edges between facets using a hash table.
@@ -214,7 +205,6 @@ def validate_binary_stl_file(file_path):
     with open(file_path, 'rb') as file:
         file.read(80) # Header
         triangle_count = struct.unpack('<I', file.read(4))[0]
-        
         facets = []
 
         for i in range(triangle_count):
@@ -228,17 +218,16 @@ def validate_binary_stl_file(file_path):
             if any(coord < 0 for coord in vertex1 + vertex2 + vertex3):
                 handle_error_with_file_pos(WARNING or strict_mode, pos, "Not all vertices of this facet have positive values")
 
-            # Validate and fix normals
+            if not is_counterclockwise(vertex1, vertex2, vertex3, normal):
+                handle_error_with_line_index(WARNING or strict_mode, "Vertices of this facet are not ordered counterclockwise")
+
+            # Validate normals
             recalculated_normal = recalculate_normal(vertex1, vertex2, vertex3)
             if not are_vectors_close(normal, recalculated_normal):
                 normal = recalculated_normal # Fix invalid normals
                 handle_error_with_file_pos(WARNING or strict_mode, pos, "Normal vector recalculated")
 
             facets.append([normal, vertex1, vertex2, vertex3])
-
-
-            if not is_counterclockwise(vertex1, vertex2, vertex3, normal):
-                handle_error_with_line_index(WARNING or strict_mode, "Vertices of this facet are not ordered counterclockwise")
 
 
             if attr_byte_count != 0:
@@ -317,14 +306,6 @@ def validate_ascii_stl_file(target):
                 handle_error_with_line_index(WARNING or strict_mode, "Not all vertice coordinates have positive values")
             vertices.append(vertex)
 
-        # Validate and fix normals
-        recalculated_normal = recalculate_normal(vertices[0], vertices[1], vertices[2])
-        if not are_vectors_close(normal, recalculated_normal):
-            normal = recalculated_normal # Fix invalid normals
-            handle_error_with_line_index(WARNING or strict_mode, "Normal vector recalculated")
-
-        facets.append([normal, vertices[0], vertices[1], vertices[2]])
-
 
         # if not is_facet_oriented_correctly(vertices[0], vertices[1], vertices[2], normal):
         #     print_warning("Facet is not oriented correctly")
@@ -338,6 +319,16 @@ def validate_ascii_stl_file(target):
         if not "endfacet" == get_current_line():
             handle_error_with_line_index(ERROR, "endfacet", get_current_line())
         go_to_next_line()
+        
+        # Validate and fix normals
+        recalculated_normal = recalculate_normal(vertices[0], vertices[1], vertices[2])
+        if not are_vectors_close(normal, recalculated_normal):
+            normal = recalculated_normal # Fix invalid normals
+            handle_error_with_line_index(WARNING or strict_mode, "Normal vector recalculated")
+
+        facets.append([normal, vertices[0], vertices[1], vertices[2]])
+
+
     if not re.search("^endsolid", get_current_line()):
         handle_error_with_line_index(ERROR, "endsolid", get_current_line())
     if solid_name != "":
