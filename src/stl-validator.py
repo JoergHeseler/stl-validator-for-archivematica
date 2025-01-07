@@ -106,6 +106,35 @@ def count_shared_edges_optimized(facets):
     non_manifold_edges = [edge for edge, count in edge_count.items() if count > 2]
     return len(non_manifold_edges), non_manifold_edges
 
+def is_model_manifold(facets):
+    edge_usage = {}
+
+    # Step 1: Count usage of each edge
+    for facet in facets:
+        edges = [
+            tuple(sorted((tuple(facet[1]), tuple(facet[2])))),
+            tuple(sorted((tuple(facet[2]), tuple(facet[3])))),
+            tuple(sorted((tuple(facet[3]), tuple(facet[1]))))
+        ]
+        for edge in edges:
+            if edge in edge_usage:
+                edge_usage[edge] += 1
+            else:
+                edge_usage[edge] = 1
+
+    # Step 2: Analyze edge usage
+    non_manifold_edges = {edge: count for edge, count in edge_usage.items() if count != 2}
+    is_manifold = len(non_manifold_edges) == 0
+
+    # # Step 3: Return result
+    # report = {
+    #     "is_manifold": is_manifold,
+    #     "non_manifold_edges": non_manifold_edges,
+    #     "total_edges": len(edge_usage),
+    #     "non_manifold_edge_count": len(non_manifold_edges),
+    # }
+
+    return is_manifold #, report
 
 
 ######################## LINE FUNCTIONS ########################
@@ -235,9 +264,11 @@ def validate_binary_stl_file(file_path):
                 
 
         # Optimized non-manifold detection
-        non_manifold_count, non_manifold_edges = count_shared_edges_optimized(facets)
-        if non_manifold_count > 0:
-            handle_error_with_file_pos(WARNING or strict_mode, pos, f"{non_manifold_count} non-manifold edges detected")
+        # non_manifold_count, non_manifold_edges = count_shared_edges_optimized(facets)
+        # if non_manifold_count > 0:
+        #     handle_error_with_file_pos(WARNING or strict_mode, pos, f"{non_manifold_count} non-manifold edges detected")
+        if not is_model_manifold(facets):
+            handle_error_with_line_index(WARNING or strict_mode, f"Model is not manifold")
             
 
 def format_event_outcome_detail_note(format, version, result):
@@ -338,9 +369,10 @@ def validate_ascii_stl_file(target):
 
 
     # Optimized non-manifold detection
-    non_manifold_count, non_manifold_edges = count_shared_edges_optimized(facets)
-    if non_manifold_count > 0:
-        handle_error_with_line_index(WARNING or strict_mode, f"{non_manifold_count} non-manifold edges detected")
+    # non_manifold_count, non_manifold_edges = count_shared_edges_optimized(facets)
+    # if non_manifold_count > 0:
+    if not is_model_manifold(facets):
+        handle_error_with_line_index(WARNING or strict_mode, f"Model is not manifold")
 
     
 
