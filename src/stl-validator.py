@@ -26,7 +26,6 @@ warning_count = 0
 error_count = 0
 first_error_message = ""
 output_detailed_warnings = False 
-# stop_on_first_error = False
 
 ######################## GEOMETRY FUNCTIONS ########################
 
@@ -61,21 +60,6 @@ def recalculate_normal(vertex1, vertex2, vertex3):
 
 def are_vectors_close(v1, v2, tol=1e-3):
     return all(abs(a - b) <= tol for a, b in zip(v1, v2))
-
-# def is_facet_oriented_correctly(vertex1, vertex2, vertex3, normal):
-#     edge1 = [v2 - v1 for v1, v2 in zip(vertex1, vertex2)]
-#     edge2 = [v3 - v1 for v1, v3 in zip(vertex1, vertex3)]
-#     calculated_normal = normalize_vector(cross_product(edge1, edge2))
-#     normal = normalize_vector(normal)
-#     return are_vectors_close(calculated_normal, normal)
-
-# def ensure_counterclockwise(vertex1, vertex2, vertex3, normal):
-#     edge1 = [v2 - v1 for v1, v2 in zip(vertex1, vertex2)]
-#     edge2 = [v3 - v1 for v1, v3 in zip(vertex1, vertex3)]
-#     calculated_normal = cross_product(edge1, edge2)
-#     if dot_product(calculated_normal, normal) < 0:
-#         vertex2, vertex3 = vertex3, vertex2
-#     return vertex1, vertex2, vertex3
 
 def is_counterclockwise(vertex1, vertex2, vertex3, normal):
     edge1 = [v2 - v1 for v1, v2 in zip(vertex1, vertex2)]
@@ -264,9 +248,6 @@ def validate_binary_stl_file(file_path):
                 
 
         # Optimized non-manifold detection
-        # non_manifold_count, non_manifold_edges = count_shared_edges_optimized(facets)
-        # if non_manifold_count > 0:
-        #     handle_error_with_file_pos(WARNING or strict_mode, pos, f"{non_manifold_count} non-manifold edges detected")
         if not is_model_manifold(facets):
             handle_error_with_line_index(WARNING or strict_mode, f"Model is not manifold")
             
