@@ -1,6 +1,6 @@
 # STL Validator for Archivematica
 
-This repository provides a script that enables [Archivematica](https://www.archivematica.org/) to validate ASCII and binary Standard Tessellation Language (STL) files.
+This repository provides a script that enables [Archivematica](https://www.archivematica.org/) to validate ASCII and binary Standard Tessellation Language (STL) files based on the [specification by Marshall Burns](https://www.fabbers.com/tech/STL_Format).
 
 ## Installation
 
