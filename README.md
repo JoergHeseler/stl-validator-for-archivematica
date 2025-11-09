@@ -38,7 +38,7 @@ To install this script, follow these steps:
 
 ## Test
 
-To test this validator, you can use the sample STL files located [here](https://github.com/JoergHeseler/mesh-samples-for-preservation-testing/tree/main/stl).
+To test this validator, you can use the sample STL files located [here](https://git.slub-dresden.de/nfdi4culturedigitalpreservation/mesh-samples-for-preservation-testing/tree/main/stl).
 
 ### In Archivematica:
 
@@ -67,7 +67,7 @@ As part of the [NFDI4Culture](https://nfdi4culture.de/) initiative, efforts are 
 
 ## Related Projects
 
-- [NFDI4Culture 3D Reference Implementations](https://github.com/JoergHeseler/nfdi4culture-3d-reference-implementations)
+- [NFDI4Culture 3D Reference Implementations](https://git.slub-dresden.de/nfdi4culturedigitalpreservation/nfdi4culture-3d-reference-implementations)
 
 ## Contributing
 
